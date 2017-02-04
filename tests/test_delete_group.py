@@ -7,3 +7,5 @@ def test_add_group(app):
     app.group.delete_first_group()
     new_groups_list = app.group.get_group_list()
     assert len(old_groups_list) - 1 == len(new_groups_list)
+    old_groups_list[0:1] = []
+    assert old_groups_list == new_groups_list
