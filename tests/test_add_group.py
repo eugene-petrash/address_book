@@ -6,7 +6,7 @@ def test_add_group(app):
     old_groups_list = app.group.get_group_list()
     new_group = Group(name="poiuytre", header="poiuy",
                                 footer="poiuytre")
-    app.group.create_group(new_group)
+    app.group.create(new_group)
     assert len(old_groups_list) + 1 == app.group.count()
     new_groups_list = app.group.get_group_list()
     old_groups_list.append(new_group)

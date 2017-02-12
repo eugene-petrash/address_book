@@ -3,11 +3,12 @@ from sys import  maxsize
 
 class Group:
 
-    def __init__(self, name=None, header=None, footer=None, id=None):
+    def __init__(self, name=None, header=None, footer=None, id=None, index=None):
         self.name = name
         self.header = header
         self.footer = footer
         self.id = id
+        self.index = index
 
     def __repr__(self):
         return "%s:%s" % (self.id, self.name)
