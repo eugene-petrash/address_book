@@ -11,11 +11,15 @@ def random_string(prefix, maxlen):
     return prefix + "-" + "".join([random.choice(symbols)
                              for i in range(random.randrange(maxlen))])
 
-# specific scenarios with empty data + 5 scenarios with random data
-testdata = [Group(name="", header="", footer="")] + [
-    Group(name=random_string("name", 10), header=random_string("header", 20),
-          footer=random_string("footer", 20))
-    for i in range (5)
+# Performance of all possible scenarios
+testdata = [
+    Group(name=name, header=header, footer=footer)
+    # fill the field 'name' is empty or a random string with len 10 symbols
+    for name in ["", random_string("name", 10)]
+    # fill the field 'header' is empty or a random string with len 20 symbols
+    for header in ["", random_string("header", 20)]
+    # fill the field 'footer' is empty or a random string with len 25 symbols
+    for footer in ["", random_string("footer", 25)]
 ]
 
 
