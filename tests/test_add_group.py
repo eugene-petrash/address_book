@@ -1,15 +1,23 @@
 # -*- coding: utf-8 -*-
 from model.group import Group
 import pytest
+import random
+import string
 
 
-# specific scenarios
-testdata = [
-    Group(name="poiuytre-1", header="poiuy-1", footer="poiuytre-1"),
-    Group(name="poiuytre-2", header="poiuy-2", footer="poiuytre-2"),
-    Group(name="poiuytre-3", header="poiuy-3", footer="poiuytre-3"),
-    Group(name="poiuytre-4", header="poiuy-4", footer="poiuytre-4"),
-    Group(name="", header="", footer="")]
+def random_string(prefix, maxlen):
+    symbols = string.ascii_letters + string.digits + " "*10
+    # prefix + random string with symbols from here^ + random len of the string
+    return prefix + "-" + "".join([random.choice(symbols)
+                             for i in range(random.randrange(maxlen))])
+
+# specific scenarios with empty data + 5 scenarios with random data
+testdata = [Group(name="", header="", footer="")] + [
+    Group(name=random_string("name", 10), header=random_string("header", 20),
+          footer=random_string("footer", 20))
+    for i in range (5)
+]
+
 
 
 @pytest.mark.parametrize("group", testdata, ids=[str(x) for x in testdata])
