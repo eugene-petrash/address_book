@@ -3,6 +3,24 @@ import random
 import string
 import os.path
 import json
+import getopt
+import sys
+
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:], "n:f:", ["number of groups", "file"])
+except getopt.GetoptError as err:
+        getopt.usage()
+        sys.exit(2)
+
+n = 5
+f = "data/groups.json"
+
+for o, a in opts:
+    if o == "-n":
+        n = int(a)
+    elif o == "-f":
+        f = a
 
 
 def random_string(prefix, maxlen):
@@ -12,17 +30,14 @@ def random_string(prefix, maxlen):
                              for i in range(random.randrange(maxlen))])
 
 # Performance of all possible scenarios
-testdata = [
-    Group(name=name, header=header, footer=footer)
-    # fill the field 'name' is empty or a random string with len 10 symbols
-    for name in ["", random_string("name", 10)]
-    # fill the field 'header' is empty or a random string with len 20 symbols
-    for header in ["", random_string("header", 20)]
-    # fill the field 'footer' is empty or a random string with len 25 symbols
-    for footer in ["", random_string("footer", 25)]
-]
+testdata = [Group(name="", header="", footer="")] + [
+     Group(name=random_string("name", 10), header=random_string("header", 20),
+           footer=random_string("footer", 20))
+     for i in range (n)
+ ]
 
-file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../data/groups.json")
+file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", f)
 
-with open(file, "w") as f:
-    f.write(json.dumps(testdata, default=lambda  x: x.__dict__, indent=2))
+
+with open(file, "w") as out:
+    out.write(json.dumps(testdata, default=lambda x: x.__dict__, indent=2))
